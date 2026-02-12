@@ -33,15 +33,23 @@ public class CustomAuthTokenFilter extends OncePerRequestFilter {
             FilterChain filterChain
     ) throws ServletException, IOException {
 
+        log.info("JWT FILTER CALLED for URI: {}", request.getRequestURI());
         try {
             String token = jwTutil.getJwtTokenInsideCookie(request);
+
+            log.info("JWT FROM COOKIE: {}", token);
+
 
             if (token != null &&
                     SecurityContextHolder.getContext().getAuthentication() == null) {
 
                 if (jwTutil.validateToken(token)) {
 
+
+
+
                     String username = jwTutil.getUsernameFromTokenFn(token);
+                    log.info("JWT VALID → setting authentication for user: {}", username);
                     UserDetails userDetails =
                             userDetailsService.loadUserByUsername(username);
 

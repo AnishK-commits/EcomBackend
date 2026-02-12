@@ -3,8 +3,8 @@ package com.shopwithanish.ecommerse.application.Controllers;
 import com.shopwithanish.ecommerse.application.AllAboutSecurity.AuthUtil;
 import com.shopwithanish.ecommerse.application.AllCustomExceptions.ApiException;
 import com.shopwithanish.ecommerse.application.Model.Cart;
-import com.shopwithanish.ecommerse.application.Repository.CartItemRepository;
 import com.shopwithanish.ecommerse.application.Repository.CartRepository;
+import com.shopwithanish.ecommerse.application.RequestDtos.CartItemRequestDto;
 import com.shopwithanish.ecommerse.application.ResponceDtos.CartResponceDto;
 import com.shopwithanish.ecommerse.application.Services.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,6 +69,16 @@ public class CartController {
 
        java.lang.String str  =cartService.deleteProductFromCart(cartId , productId);
        return new ResponseEntity<>(str , HttpStatus.OK);
+    }
+
+    //saving user cart in backend after payment mode is selected VVIP
+    @PostMapping("/cart/final-cartSync")
+    public ResponseEntity<?> createOrUpdateCartOneLastTime (@RequestBody List<CartItemRequestDto> items)
+
+    {
+
+      String msg =cartService.createOrUpdateCartOneLastTime(items);
+        return new ResponseEntity<>(msg , HttpStatus.OK);
     }
 
 }

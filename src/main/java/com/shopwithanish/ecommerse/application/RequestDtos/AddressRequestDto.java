@@ -26,7 +26,16 @@ public class AddressRequestDto {
     @NotBlank
     private String city;
 
+
+    @NotBlank
+    private String state;
+
+
+
     @Min(100000)
     @Max(999999)
     private Integer pincode;
+
+    @NotBlank
+    private String phoneNo;
 }

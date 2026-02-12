@@ -1,9 +1,6 @@
 package com.shopwithanish.ecommerse.application.ResponceDtos;
 
 
-import com.shopwithanish.ecommerse.application.Model.CartItem;
-import com.shopwithanish.ecommerse.application.Model.Product;
-import com.shopwithanish.ecommerse.application.RequestDtos.ProductRequestDto;
 import lombok.*;
 
 import java.util.ArrayList;

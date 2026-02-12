@@ -8,6 +8,7 @@ import com.shopwithanish.ecommerse.application.Model.Product;
 import com.shopwithanish.ecommerse.application.Repository.CartItemRepository;
 import com.shopwithanish.ecommerse.application.Repository.CartRepository;
 import com.shopwithanish.ecommerse.application.Repository.ProductRepository;
+import com.shopwithanish.ecommerse.application.RequestDtos.CartItemRequestDto;
 import com.shopwithanish.ecommerse.application.ResponceDtos.CartResponceDto;
 import com.shopwithanish.ecommerse.application.ResponceDtos.ProductResponceDto;
 import com.shopwithanish.ecommerse.application.Services.CartService;
@@ -273,5 +274,54 @@ public class CartServiceImpl implements CartService {
         cartRepository.save(cartt);
 
  return c;
+    }
+
+    @Override
+    @Transactional // ✅ Already present
+    public String createOrUpdateCartOneLastTime(List<CartItemRequestDto> items) {
+
+        String email = authUtil.LoggedInEmail();
+        Cart existingCart = cartRepository.findCartByEmail(email).orElse(null);
+
+        if (existingCart == null) {
+            existingCart = new Cart();
+            existingCart.setTotalCartPrice(0.00);
+            existingCart.setUsers(authUtil.LoggedInUser());
+            existingCart = cartRepository.save(existingCart); // ✅ Save first
+        } else {
+            // ✅ Clear items in memory before deleting from DB
+            existingCart.getCartItemList().clear();
+            cartRepository.flush(); // Force delete to execute
+            cartItemRepository.deleteAllCartItemByCartId(existingCart.getCartId());
+        }
+
+        Double totalPrice = 0.00;
+
+        for (CartItemRequestDto dto : items) {
+            Product product = productRepository.findById(dto.getProductId())
+                    .orElseThrow(() -> new ApiException("Product not found"));
+
+            if (product.getStock() < dto.getQuantity()) {
+                throw new ApiException("Insufficient stock for " + product.getProductName());
+            }
+
+            CartItem item = new CartItem();
+            item.setCart(existingCart); // ✅ Set bidirectional relationship
+            item.setProduct(product);
+            item.setQuantity(dto.getQuantity());
+            item.setProductsPrice(product.getSpecialPrice());
+            item.setDiscountOnProduct(product.getDiscount());
+
+            totalPrice += product.getSpecialPrice() * dto.getQuantity();
+
+            // ✅ Add to collection before saving
+            existingCart.getCartItemList().add(item);
+            cartItemRepository.save(item);
+        }
+
+        existingCart.setTotalCartPrice(totalPrice);
+        cartRepository.save(existingCart);
+
+        return "Cart created or updated with new items successfully";
     }
 }

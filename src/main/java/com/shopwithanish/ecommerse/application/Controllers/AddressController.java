@@ -42,7 +42,7 @@ public class AddressController {
 
 
     //get address by address id
-    @GetMapping ("/get-address -by-addressid/{addressid}")
+    @GetMapping ("/get-address-by-addressid/{addressid}")
     ResponseEntity<?> getaddressbyaddressidl(@PathVariable Long addressid){
 
         Users user= authUtil.LoggedInUser();
@@ -50,7 +50,7 @@ public class AddressController {
         return new ResponseEntity<>(dtoList, HttpStatus.OK);
     }
 
-    @GetMapping ("/get-address -by-user")
+    @GetMapping ("/get-address-by-user")
     ResponseEntity<?> getaddressbyloggeduser(){
 
         Users user= authUtil.LoggedInUser();
@@ -70,8 +70,8 @@ public class AddressController {
     @DeleteMapping ("/delete-address-of-user/{adderessid}")
     ResponseEntity<?> deleteaddressofuserbyAddesssid( @PathVariable Long adderessid ){
 
-        String  dtoList = addressService.deleteaddressofuserbyAddesssid(adderessid );
-        return new ResponseEntity<>(dtoList, HttpStatus.OK);
+        String  msg = addressService.deleteaddressofuserbyAddesssid(adderessid );
+        return new ResponseEntity<>(msg, HttpStatus.OK);
     }
 
 

@@ -10,7 +10,7 @@ import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.jspecify.annotations.Nullable;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Component;
@@ -49,7 +49,7 @@ public class JWTutil {
         return Jwts.builder()
                 .setSubject(username)                 // 👈 username stored here
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + jwtExpiratintimeinMS))
+                .setExpiration(new Date(System.currentTimeMillis() + 24 * 60 * 60 * 1000))
                 .signWith(SECRETKEYfn())
                 .compact();
 
@@ -98,9 +98,10 @@ public class JWTutil {
         String token= generateTokenFromUsernameFn(users.getUsername());
 
         ResponseCookie cookie = ResponseCookie.from(cookieName, token)
-                .path("/api")
-                .maxAge(60 * 60 * 24)
+                .path("/")
                 .httpOnly(true)
+                .secure(false)          // 🔴 true only in production (HTTPS)
+                .maxAge(24 * 60 * 60)
                 .sameSite("Lax")
                 .build();
         return cookie;
@@ -115,8 +116,12 @@ public class JWTutil {
 
         // Use Cookie
         //When reading cookies from HttpServletRequest
+
+
         Cookie cookie= WebUtils.getCookie(request , cookieName);
           if(cookie!=null){
+
+              log.info("JWT FROM COOKIE: {}", cookie.getValue());
               return cookie.getValue(); //i.e. out token
           }
           else{

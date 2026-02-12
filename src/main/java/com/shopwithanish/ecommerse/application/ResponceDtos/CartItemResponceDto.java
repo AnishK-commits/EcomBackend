@@ -2,7 +2,6 @@ package com.shopwithanish.ecommerse.application.ResponceDtos;
 
 
 import com.shopwithanish.ecommerse.application.Model.Product;
-import com.shopwithanish.ecommerse.application.RequestDtos.ProductRequestDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

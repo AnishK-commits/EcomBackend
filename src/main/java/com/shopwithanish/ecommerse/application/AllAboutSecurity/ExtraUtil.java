@@ -18,16 +18,14 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
 import javax.sql.DataSource;
+import java.util.Base64;
 
 @Configuration
 public class ExtraUtil {
 
-//    @Autowired
-//    DataSource dataSource;
-//
-//    @Autowired
-//    UserDetailsService userDetailsService;
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
@@ -78,6 +76,7 @@ public class ExtraUtil {
 //
 //        return jdbcUserDetailsManager;
 //    }
+
 
 
 

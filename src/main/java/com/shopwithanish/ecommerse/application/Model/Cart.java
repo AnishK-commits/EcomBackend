@@ -13,7 +13,8 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+@ToString(exclude = {"cartItemList", "users"}) // ✅ CRITICAL FIX
+@EqualsAndHashCode(exclude = {"cartItemList", "users"})
 public class Cart {
 
     @Id
@@ -21,7 +22,7 @@ public class Cart {
     private Long cartId;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "cart" , cascade = CascadeType.ALL ,orphanRemoval = true)
+    @OneToMany(mappedBy = "cart" , cascade = CascadeType.ALL ,orphanRemoval = true , fetch = FetchType.EAGER)
     private List<CartItem> cartItemList=new ArrayList<>();
     //parent is cart
 

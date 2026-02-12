@@ -1,6 +1,8 @@
 package com.shopwithanish.ecommerse.application.AllAboutSecurity;
 
+import com.shopwithanish.ecommerse.application.AppConstants;
 import com.shopwithanish.ecommerse.application.RequestDtos.SignupRequestDto;
+import com.shopwithanish.ecommerse.application.ResponceDtos.UserResponseDTO;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -46,5 +48,30 @@ public class AuthGreetingsController {
     }
 
 
+    @GetMapping("/admin/get-all-users")
+    public ResponseEntity<UserResponseDTO> getAllUsers(@RequestParam(name = "pageNumber", defaultValue = AppConstants.PAGE_NUMBER, required = false) Integer pageNumber,
+                                                         @RequestParam(name = "pageSize", defaultValue = AppConstants.PAGE_SIZE, required = false) Integer pageSize,
+                                                         @RequestParam(name = "sortBy", defaultValue = AppConstants.SORT_BYUSERS, required = false) String sortBy,
+                                                         @RequestParam(name = "sortOrder", defaultValue = AppConstants.SORT_DIRECTION, required = false) String sortOrder) {
+
+
+        UserResponseDTO dto=authService.getAllUsers(pageNumber, pageSize , sortBy ,sortOrder);
+
+        return new ResponseEntity<>(dto , HttpStatus.OK);
+    }
+
+    //UserResponseDTO includes all list of registered users and pagination response
+
+    @GetMapping("/admin/get-all-sellers")
+    public ResponseEntity<UserResponseDTO> getAllSellers(@RequestParam(name = "pageNumber", defaultValue = AppConstants.PAGE_NUMBER, required = false) Integer pageNumber,
+                                                       @RequestParam(name = "pageSize", defaultValue = AppConstants.PAGE_SIZE, required = false) Integer pageSize,
+                                                       @RequestParam(name = "sortBy", defaultValue = AppConstants.SORT_BYUSERS, required = false) String sortBy,
+                                                       @RequestParam(name = "sortOrder", defaultValue = AppConstants.SORT_DIRECTION, required = false) String sortOrder) {
+
+
+        UserResponseDTO dto=authService.getAllSellers(pageNumber, pageSize , sortBy ,sortOrder);
+
+        return new ResponseEntity<>(dto , HttpStatus.OK);
+    }
 
 }

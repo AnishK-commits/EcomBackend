@@ -20,11 +20,11 @@ public class CategoryController {
 
     @GetMapping("/public/get-all-categories")
     public ResponseEntity<CategoryPaginationResponce> getAllCategories(@RequestParam(name="pageNumber" , defaultValue = AppConstants.PAGE_NUMBER,required = false) Integer pageNumber,
-                                                                       @RequestParam (name = "pageSize",  defaultValue = AppConstants.PAGE_SIZE,required = false)Integer pageSize,
+                                                                       @RequestParam (name = "pageSize",  defaultValue = AppConstants.CATEGORY_PAGE_SIZE,required = false)Integer pageSize,
                                                                         @RequestParam (name = "sortBy",  defaultValue = AppConstants.SORT_BY ,required = false) String sortBy,
                                                                         @RequestParam (name = "sortOrder",  defaultValue = AppConstants.SORT_DIRECTION ,required = false)String sortOrder){
         CategoryPaginationResponce responce=  categoryService.getAllCategories(pageNumber, pageSize, sortBy , sortOrder);
-        return new ResponseEntity<>(responce , HttpStatus.FOUND);
+        return new ResponseEntity<>(responce , HttpStatus.OK);
     }
 
     @PostMapping("/public/add-new-category")
@@ -39,7 +39,7 @@ public class CategoryController {
     }
 
     @PutMapping("/admin/upadte-existing-category/{categoryid}")
-    public String updatecategoryobject(@Valid @RequestBody CategoryRequestDto categoryRequestDto,
+    public CategoryResponceDto updatecategoryobject(@Valid @RequestBody CategoryRequestDto categoryRequestDto,
                                        @PathVariable Long categoryid){
        return categoryService.updatecategoryobject(categoryRequestDto , categoryid);
 

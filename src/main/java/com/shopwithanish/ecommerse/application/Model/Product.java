@@ -26,6 +26,7 @@ public class Product {
     private Double specialPrice;
     private String image;
     private Double discount;
+    private Long inCartQuantity= 0L;
 
     @ManyToOne
     @JsonIgnore
@@ -34,7 +35,7 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(name = "seller_id")
-    private Users user;
+    private Users seller;              //product contain user and user is a seller type
 
     @JsonIgnore
     @OneToMany(mappedBy = "product" , cascade = CascadeType.ALL)

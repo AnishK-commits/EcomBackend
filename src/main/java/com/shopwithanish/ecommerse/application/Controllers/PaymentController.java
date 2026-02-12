@@ -1,7 +1,6 @@
 package com.shopwithanish.ecommerse.application.Controllers;
 
 
-import com.shopwithanish.ecommerse.application.Model.Payment;
 import com.shopwithanish.ecommerse.application.ResponceDtos.PaymentResponceDto;
 import com.shopwithanish.ecommerse.application.Services.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +18,23 @@ public class PaymentController {
     @Autowired
     PaymentService paymentService;
 
- @PostMapping("/initiate-payment/orderId/{orderid}")
- public ResponseEntity<?> intiatePayment(@PathVariable Long orderid){
 
-   PaymentResponceDto prd= paymentService.intiatePayment(orderid);
-        return new ResponseEntity<>(prd , HttpStatus.OK);
- }
+         @PostMapping("/initiate-payment/orderId/{orderid}")
+         public ResponseEntity<?> intiatePayment(@PathVariable Long orderid){
+
+           PaymentResponceDto prd= paymentService.intiatePayment(orderid);
+                return new ResponseEntity<>(prd , HttpStatus.OK);
+         }
+
+
+
+        @PostMapping("//payments/cash/success/order/{orderId}")
+        public ResponseEntity<?> markCashPaymentSuccess(@PathVariable Long orderId) {
+
+            paymentService.markCashPaymentSuccess(orderId);
+
+            return ResponseEntity.ok("Cash payment collected successfully");
+        }
+
+
 }

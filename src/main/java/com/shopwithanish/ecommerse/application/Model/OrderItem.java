@@ -29,6 +29,17 @@ public class OrderItem {
     private Long orderItemQuantity;
     private Double orderItemPrice;
 
+    @ManyToOne
+    @JoinColumn(name = "seller_id")
+    private Users seller;
+
+    //Now each order item belongs to a seller directly.
+    //if not add
+//    Seller 1 will see that order
+//    Seller 2 will also see that same order
+//    So both sellers see full order details p1 of seller 1 p2 of seller 3 becoz they order combine during checkout(including other seller’s product).
+
+
 
 
 

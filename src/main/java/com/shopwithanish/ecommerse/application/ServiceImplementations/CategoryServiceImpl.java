@@ -106,16 +106,16 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     @Transactional
-    public String updatecategoryobject(CategoryRequestDto categoryRequestDto, Long categoryid) {
+    public CategoryResponceDto updatecategoryobject(CategoryRequestDto categoryRequestDto, Long categoryid) {
 
       Category existingcategory=  categoryRepository.findById(categoryid).orElse(null);
       if(existingcategory==null){
-          return "category not found with given id";
+          throw new RuntimeException( "category not found with given id");
       }
 
-      existingcategory.setCategoryName(categoryRequestDto.getCategoryName());
-      categoryRepository.save(existingcategory);
+        existingcategory.setCategoryName(categoryRequestDto.getCategoryName());
+        existingcategory= categoryRepository.save(existingcategory);
 
-        return "category update succesfully";
+        return modelMapper.map(existingcategory , CategoryResponceDto.class);
     }
 }

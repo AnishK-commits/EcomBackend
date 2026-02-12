@@ -25,8 +25,12 @@ public class AddressResponceDto {
 
 
     private String city;
+    private String state;
+
 
 
     private Integer pincode;
+
+    private String phoneNo;
 
 }

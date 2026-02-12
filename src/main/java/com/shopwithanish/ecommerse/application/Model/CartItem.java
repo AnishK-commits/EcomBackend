@@ -10,7 +10,8 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+@ToString(exclude = {"cart", "product"}) // ✅ CRITICAL FIX
+@EqualsAndHashCode(exclude = {"cart", "product"})
 public class CartItem {
 
 

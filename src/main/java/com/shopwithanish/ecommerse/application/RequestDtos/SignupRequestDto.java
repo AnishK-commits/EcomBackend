@@ -23,13 +23,15 @@ public class SignupRequestDto {
     private String username;
 
     @NotBlank
-    @Size(min = 8)
+    @Size(min = 5)
     private String password;
 
     @NotBlank
     @Email
     private String email;
 
+    @NotBlank
+    private String phoneNo;
 
 
     private Set<String> roles=new HashSet<>();

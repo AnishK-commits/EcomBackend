@@ -71,12 +71,13 @@ public class AddressServiceImpl implements AddressService {
 
        Addresss addresss= addressRepository.findById(adderessid).orElseThrow(()-> new ApiException("no addresss exist link to this id: "+adderessid));
 
+       addresss.setBuildingname(addressRequestDto.getBuildingname());
        addresss.setCity(addressRequestDto.getCity());
        addresss.setPincode(addressRequestDto.getPincode());
        addresss.setCountry(addressRequestDto.getCountry());
-       addresss.setBuildingname(addresss.getBuildingname());
        addresss.setStreet(addressRequestDto.getStreet());
-     Addresss updatedone= addressRepository.save(addresss);
+       addresss.setPhoneNo(addressRequestDto.getPhoneNo());
+       Addresss updatedone= addressRepository.save(addresss);
 
       //after this we need to remove old address that is present in user addresslist
         Users user = addresss.getUser(); //link user

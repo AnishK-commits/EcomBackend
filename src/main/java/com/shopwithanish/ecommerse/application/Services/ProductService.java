@@ -6,13 +6,12 @@ import com.shopwithanish.ecommerse.application.ResponceDtos.ProductResponceDto;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.List;
 
 public interface ProductService {
     ProductResponceDto addNewProduct(ProductRequestDto productRequestDto, Long categoryid);
 
 
-    ProductPaginationResponce getAllProducts(Integer pageNumber, Integer pageSize, String sortBy, String sortOrder);
+    ProductPaginationResponce getAllProducts(Integer pageNumber, Integer pageSize, String sortBy, String sortOrder, String category, String keyword);
 
     ProductPaginationResponce getProductsBycategoryId(Long categoryid , Integer pageNumber , Integer pageSize , String sortBy , String sortOrder);
 
@@ -23,4 +22,10 @@ public interface ProductService {
     String deleteExistingProductM(Long productid);
 
     ProductResponceDto updateProductImagefn(Long productid, MultipartFile image) throws IOException;
+
+    ProductPaginationResponce getAllProductsAdmin(Integer pageNumber, Integer pageSize, String sortBy, String sortOrder);
+
+    ProductResponceDto getProductDetailFromProductId(Long productID);
+
+    ProductPaginationResponce getAllProductsAddedBySeller(Integer pageNumber, Integer pageSize, String sortBy, String sortOrder);
 }

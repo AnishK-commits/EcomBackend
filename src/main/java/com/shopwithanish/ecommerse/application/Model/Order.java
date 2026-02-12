@@ -1,13 +1,11 @@
 package com.shopwithanish.ecommerse.application.Model;
 
 
-import com.shopwithanish.ecommerse.application.Enums.AppPaymentStatus;
+
 import com.shopwithanish.ecommerse.application.Enums.OrderStatus;
 import com.shopwithanish.ecommerse.application.Enums.PaymentMethod;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -19,6 +17,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@ToString(exclude = {"orderItemList", "user", "addresss", "payment"})
+@EqualsAndHashCode(exclude = {"orderItemList", "user", "addresss", "payment"})
 @Table(name = "customer_order")
 public class Order {
 
@@ -30,7 +30,7 @@ public class Order {
     @Column(nullable = false)
     private String email;
 
-    @OneToMany(mappedBy = "order" , cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "order" , cascade = CascadeType.ALL , fetch = FetchType.EAGER)
     List<OrderItem> orderItemList=new ArrayList<>();
 
     private LocalDateTime orderDate;
@@ -44,19 +44,19 @@ public class Order {
     private OrderStatus orderStatus;
 
 
-    @Enumerated(value = EnumType.STRING)
-    private AppPaymentStatus appPaymentStatus;
 
     //multiple order will ship to single address in future
     @ManyToOne
     private Addresss addresss;//
 
-    @OneToOne
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
     private Payment payment;
+
 
 
     @ManyToOne
     private Users user;
+
 
 
 }

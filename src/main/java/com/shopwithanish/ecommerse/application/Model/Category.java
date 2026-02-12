@@ -27,4 +27,7 @@ public class Category {
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<Product> product=new ArrayList<>();
+
+    //cascade = CascadeType.ALL → delete category ⇒ delete products
+    //orphanRemoval = true → no orphan products left behind
 }
