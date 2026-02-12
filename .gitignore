@@ -32,3 +32,17 @@ build/
 ### VS Code ###
 .vscode/
 
+# Environment files
+.env
+.env.*
+application-secret.properties
+
+# Spring Boot
+target/
+
+# IDE
+.idea/
+*.iml
+
+# Logs
+*.log
